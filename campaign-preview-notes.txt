@@ -1,8 +1,0 @@
-Terra-Be-Utopia campaign landing page working branch.
-
-Main working file: campaign.html
-
-Dashboard updates are controlled in the `campaign` JavaScript object near the bottom of campaign.html.
-External campaign links intentionally remain empty until GoFundMe and the partner/volunteer/contact destinations are final.
-
-Reference HTML pages on main were not modified or deleted.
