@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Help Build the First Terra-Be-Utopia Demonstration Project</title>
+  <meta name="description" content="Help build the first Terra-Be-Utopia demonstration project in the Alentejo: fund it, equip it, build it or open a door." />
+  <style>
+    :root{
+      --ink:#233128;
+      --muted:#667168;
+      --cream:#f4efe5;
+      --paper:#fffdf8;
+      --sage:#a8b9a4;
+      --green:#4f7557;
+      --green-dark:#294936;
+      --straw:#d8bd79;
+      --earth:#9a6f4d;
+      --line:rgba(35,49,40,.14);
+      --shadow:0 22px 60px rgba(35,49,40,.10);
+      --radius:28px;
+      --max:1180px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper);line-height:1.6}
+    img{display:block;width:100%;height:auto}
+    a{text-decoration:none;color:inherit}
+    .wrap{width:min(calc(100% - 34px),var(--max));margin:auto}
+    .eyebrow{font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--green)}
+    h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:500;line-height:1.04;margin:0 0 18px}
+    h1{font-size:clamp(3rem,7vw,6.8rem);max-width:980px}
+    h2{font-size:clamp(2.2rem,4.6vw,4.8rem)}
+    h3{font-size:clamp(1.4rem,2vw,2rem)}
+    p{margin:0 0 18px}
+    .lead{font-size:clamp(1.05rem,1.7vw,1.35rem);max-width:760px;color:#465249}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 21px;border-radius:999px;border:1px solid var(--ink);font-weight:700;letter-spacing:.02em;transition:.2s ease;background:transparent}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.primary{background:var(--green-dark);color:white;border-color:var(--green-dark)}
+    .btn.light{background:rgba(255,255,255,.9);border-color:rgba(255,255,255,.9)}
+    .btn.ghost{border-color:var(--line)}
+    section{padding:96px 0}
+
+    .hero{min-height:94vh;display:grid;align-items:end;position:relative;color:white;background:linear-gradient(90deg,rgba(20,35,27,.77),rgba(20,35,27,.22)),url('monte-ventosa-alentejo-green-landscape.webp') center/cover no-repeat}
+    .hero::after{content:"";position:absolute;inset:auto 0 0;height:180px;background:linear-gradient(transparent,var(--paper))}
+    .hero .inner{position:relative;z-index:1;padding:130px 0 150px}
+    .hero .eyebrow{color:#dfe8dc}
+    .hero .lead{color:rgba(255,255,255,.88);max-width:690px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+
+    .dashboard{background:var(--cream);padding-top:74px}
+    .dash-head{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:34px}
+    .dash-head p{max-width:590px;color:var(--muted)}
+    .gauges{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .gauge-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+    .gauge-top{display:flex;justify-content:space-between;align-items:start;gap:20px}
+    .gauge-label{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+    .gauge-sub{font-size:.93rem;color:var(--muted)}
+    .gauge{position:relative;width:min(100%,430px);aspect-ratio:2/1;margin:24px auto 8px;overflow:hidden}
+    .dial{position:absolute;left:0;right:0;bottom:0;height:200%;border-radius:50%;background:conic-gradient(from 270deg at 50% 50%,#b85e4e 0 17deg,#d4874c 17deg 44deg,#d2ad56 44deg 72deg,#80a066 72deg 90deg,transparent 90deg 360deg);mask:radial-gradient(circle at 50% 50%,transparent 0 56%,#000 57% 63%,transparent 64%)}
+    .dial.equipment{background:conic-gradient(from 270deg at 50% 50%,#c9cec9 0 56deg,#88a17f 56deg 90deg,transparent 90deg 360deg)}
+    .ticks{position:absolute;inset:0;font-size:.75rem;font-weight:800;color:var(--muted)}
+    .ticks span{position:absolute;bottom:0;transform:translate(-50%,50%)}
+    .ticks .t0{left:2%}.ticks .t1{left:21%}.ticks .t2{left:46%}.ticks .t3{left:78%}.ticks .t4{left:98%}
+    .needle-wrap{position:absolute;left:50%;bottom:0;width:45%;height:4px;transform-origin:left center;transform:rotate(calc(-90deg + (var(--progress) * 1.8deg)));transition:transform .8s ease}
+    .needle{width:100%;height:3px;background:var(--ink);border-radius:999px;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
+    .needle-wrap::after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:var(--ink);left:-9px;top:-7px}
+    .gauge-value{text-align:center;margin-top:-2px}
+    .gauge-value strong{display:block;font-family:Georgia,"Times New Roman",serif;font-size:2.3rem;font-weight:500}
+    .gauge-value span{color:var(--muted);font-size:.92rem}
+    .next{margin-top:20px;padding:15px 16px;border-radius:18px;background:#f3f5f0;font-size:.92rem}
+    .equip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px}
+    .equip-chip{padding:10px;border:1px solid var(--line);border-radius:999px;text-align:center;font-size:.78rem;font-weight:700;color:var(--muted)}
+    .equip-chip.secured{background:#e5eee2;color:var(--green-dark);border-color:#cdddc9}
+
+    .story-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:68px;align-items:center}
+    .image-card{border-radius:34px;overflow:hidden;box-shadow:var(--shadow)}
+    .image-card img{aspect-ratio:4/3;object-fit:cover}
+    .quote{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.6rem,3vw,3rem);line-height:1.12;margin-top:30px;color:var(--green-dark)}
+
+    .dark{background:var(--green-dark);color:#f6f3ea}
+    .dark .eyebrow{color:#b9ccb5}.dark .lead,.dark p{color:#d7e0d5}
+    .path{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:44px}
+    .path-card{border:1px solid rgba(255,255,255,.16);border-radius:22px;padding:22px;min-height:175px;background:rgba(255,255,255,.035)}
+    .path-card b{display:block;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:#b9ccb5;margin-bottom:12px}
+
+    .ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+    .milestone{border-top:4px solid var(--line);padding:22px 2px 0}
+    .milestone:nth-child(1){border-color:#b85e4e}.milestone:nth-child(2){border-color:#d4874c}.milestone:nth-child(3){border-color:#d2ad56}.milestone:nth-child(4){border-color:#80a066}
+    .milestone strong{display:block;font-family:Georgia,"Times New Roman",serif;font-size:2.2rem;margin-bottom:6px}
+    .milestone b{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase}
+    .milestone p{font-size:.94rem;color:var(--muted);margin-top:10px}
+
+    .stays{background:#eef2e9}
+    .stay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:38px}
+    .stay{background:rgba(255,255,255,.72);border-radius:22px;padding:24px;border:1px solid rgba(35,49,40,.08)}
+    .stay b{display:block;margin-bottom:8px}
+
+    .needs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+    .need{border:1px solid var(--line);border-radius:24px;padding:25px;background:white}
+    .need .status{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#965243;background:#f6e6e1;border-radius:999px;padding:6px 9px;margin-bottom:16px}
+    .need ul{padding-left:18px;margin:10px 0 0;color:var(--muted)}
+
+    .hands{background:linear-gradient(90deg,rgba(30,45,35,.86),rgba(30,45,35,.35)),url('monte-ventosa-hands-on-learning-alentejo.webp') center/cover no-repeat;color:white}
+    .hands .lead{color:rgba(255,255,255,.85)}
+    .roles{display:flex;gap:10px;flex-wrap:wrap;margin:25px 0}
+    .role{border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:8px 13px;font-size:.9rem}
+
+    .land{background:#f7f2e8}
+    .land-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:start}
+    .principles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .principle{padding:18px;border-top:1px solid var(--line)}
+    .principle strong{display:block;margin-bottom:5px}
+
+    .final{padding:120px 0;background:linear-gradient(rgba(31,49,36,.58),rgba(31,49,36,.58)),url('monte-ventosa-sunrise-alentejo.jpg') center/cover no-repeat;color:white;text-align:center}
+    .final h2{max-width:900px;margin-left:auto;margin-right:auto}
+    .final .actions{justify-content:center}
+    .micro{font-size:.82rem;color:var(--muted);margin-top:14px}
+    footer{padding:28px 0 45px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+
+    @media(max-width:860px){
+      section{padding:72px 0}.gauges,.story-grid,.land-grid{grid-template-columns:1fr}.path,.ladder{grid-template-columns:1fr 1fr}.stay-grid,.needs-grid{grid-template-columns:1fr 1fr}.equip-grid{grid-template-columns:1fr 1fr}.hero .inner{padding-top:100px}.dash-head{display:block}
+    }
+    @media(max-width:560px){
+      .path,.ladder,.stay-grid,.needs-grid,.principles{grid-template-columns:1fr}.gauge-card{padding:20px}.wrap{width:min(calc(100% - 22px),var(--max))}.btn{width:100%}.actions{display:grid}.hero{min-height:88vh}
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap inner">
+      <div class="eyebrow">Terra-Be-Utopia · First Demonstration Project</div>
+      <h1>Help build the first place where regeneration becomes visible.</h1>
+      <p class="lead">In the Alentejo, we are turning one real piece of land into a living demonstration of what can happen when people, knowledge and resources meet — for healthier soil, more water, greater fire resilience and livelihoods that do not depend on exhausting the land.</p>
+      <div class="actions">
+        <a class="btn primary" href="#fund">Fund the build</a>
+        <a class="btn light" href="#equip">Help equip it</a>
+        <a class="btn light" href="#build">Build with us</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="dashboard" id="fund">
+    <div class="wrap">
+      <div class="dash-head">
+        <div><div class="eyebrow">Live build dashboard</div><h2>Every contribution moves the needle.</h2></div>
+        <p>This page is designed to show the build as it happens. Cash funds the commitments we cannot replace. Equipment partnerships reduce what we need to buy and leave useful infrastructure on the land.</p>
+      </div>
+
+      <div class="gauges">
+        <article class="gauge-card">
+          <div class="gauge-top"><div><div class="gauge-label">Fund it</div><div class="gauge-sub">Cash raised</div></div><div class="gauge-sub">Target €30,000</div></div>
+          <div class="gauge">
+            <div class="dial"></div>
+            <div class="ticks"><span class="t0">€0</span><span class="t1">€5.5k</span><span class="t2">€15k</span><span class="t3">€27k</span><span class="t4">€30k</span></div>
+            <div class="needle-wrap" id="cashNeedle" style="--progress:0"><div class="needle"></div></div>
+          </div>
+          <div class="gauge-value"><strong id="cashValue">€0</strong><span>of €30,000</span></div>
+          <div class="next" id="nextMilestone">Next milestone: €5,500 — Secure the course.</div>
+          <div class="actions"><a class="btn primary" id="gofundmeLink" href="#">Contribute</a></div>
+        </article>
+
+        <article class="gauge-card" id="equip">
+          <div class="gauge-top"><div><div class="gauge-label">Equip it</div><div class="gauge-sub">Essential systems secured</div></div><div class="gauge-sub">Target €12,000+</div></div>
+          <div class="gauge">
+            <div class="dial equipment"></div>
+            <div class="needle-wrap" id="equipmentNeedle" style="--progress:0"><div class="needle"></div></div>
+          </div>
+          <div class="gauge-value"><strong id="equipmentCount">0 / 8</strong><span id="equipmentValue">€0 equipment secured</span></div>
+          <div class="equip-grid" id="equipmentGrid"></div>
+          <div class="actions"><a class="btn ghost" href="#equipment-needs">Equip the project</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap story-grid">
+      <div>
+        <div class="eyebrow">This is where we begin</div>
+        <h2>Not a finished retreat. A real beginning.</h2>
+        <p class="lead">There is land. There is life. There is possibility. But much of the infrastructure that makes learning, building and hosting people possible still has to be created.</p>
+        <p>We do not want to hide that stage. It is part of the point. Terra-Be-Utopia is about showing what regeneration looks like before the beautiful “after” picture exists — the decisions, mistakes, learning, relationships and work that make change real.</p>
+        <div class="quote">The beginning is part of the demonstration.</div>
+      </div>
+      <div class="image-card"><img src="monte-ventosa-cork-oak-landscape.jpg" alt="Monte Ventosa landscape in the Alentejo" /></div>
+    </div>
+  </section>
+
+  <section class="dark">
+    <div class="wrap">
+      <div class="eyebrow">The first catalyst</div>
+      <h2>Bring experienced teachers to real land — and build while we learn.</h2>
+      <p class="lead">The first major course is not the end product. It is the moment that brings knowledge, people, tools and practical implementation together. We want to learn from people who have spent decades doing this work, then turn that experience into something visible and useful here.</p>
+      <div class="path">
+        <div class="path-card"><b>01</b><h3>Course</h3><p>Experienced educators and practical learning.</p></div>
+        <div class="path-card"><b>02</b><h3>Build</h3><p>Hands-on implementation on the land.</p></div>
+        <div class="path-card"><b>03</b><h3>Document</h3><p>What works, what fails and what changes.</p></div>
+        <div class="path-card"><b>04</b><h3>Share</h3><p>Make the learning useful beyond this place.</p></div>
+        <div class="path-card"><b>05</b><h3>Repeat</h3><p>Let the next course start where this one ends.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">What €30,000 unlocks</div>
+      <h2>Four milestones. One build.</h2>
+      <div class="ladder">
+        <div class="milestone"><strong>€5,500</strong><b>Secure it</b><p>Deposit, travel and the first commitments needed to set the course in motion.</p></div>
+        <div class="milestone"><strong>€15,000</strong><b>Bring the teacher</b><p>The educational programme and educator costs are financially secured.</p></div>
+        <div class="milestone"><strong>€27,000</strong><b>Make it possible</b><p>Water, kitchen, sanitation, classroom, tools, helpers and essential logistics.</p></div>
+        <div class="milestone"><strong>€30,000</strong><b>Build it safely</b><p>Room for transport, technical requirements and the unexpected without cutting essential corners.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stays">
+    <div class="wrap">
+      <div class="eyebrow">What stays</div>
+      <h2>The course ends. The infrastructure does not.</h2>
+      <p class="lead">What we build becomes the starting point for the next course, the next experiment and the next season on the land.</p>
+      <div class="stay-grid">
+        <div class="stay"><b>Water infrastructure</b><span>Pump, storage, distribution and the ability to work with water more intelligently.</span></div>
+        <div class="stay"><b>Community kitchen</b><span>A practical base for courses, volunteers and future builds.</span></div>
+        <div class="stay"><b>Tools & equipment</b><span>Useful long after the first event is over.</span></div>
+        <div class="stay"><b>Classroom materials</b><span>Tarps, anchoring and reusable building materials.</span></div>
+        <div class="stay"><b>Knowledge</b><span>Practical experience that can be applied, tested and improved.</span></div>
+        <div class="stay"><b>Relationships</b><span>People who may become collaborators, teachers, partners, hosts and friends of the project.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="equipment-needs">
+    <div class="wrap">
+      <div class="eyebrow">Equip it</div>
+      <h2>Maybe you already make what we need.</h2>
+      <p class="lead">For manufacturers, growers, suppliers and practical partners, this is an opportunity to put useful equipment into a real regenerative demonstration project — where it can be used, tested, documented and seen.</p>
+      <div class="needs-grid">
+        <div class="need"><span class="status">Needed</span><h3>Water & power</h3><ul><li>Deep-well solar pump</li><li>Panels & controller</li><li>Tanks, pipes, fittings</li><li>Filtration</li></ul></div>
+        <div class="need"><span class="status">Needed</span><h3>Kitchen</h3><ul><li>5–6 burner gas cooker</li><li>Large pots</li><li>Work tables</li><li>Cooling & storage</li></ul></div>
+        <div class="need"><span class="status">Needed</span><h3>Classroom</h3><ul><li>Large weatherproof tarps</li><li>Anchoring & straps</li><li>Large rectangular straw bales</li><li>Lighting</li></ul></div>
+        <div class="need"><span class="status">Needed</span><h3>Sanitation</h3><ul><li>Dry/mobile toilets</li><li>Handwashing</li><li>Outdoor shower solutions</li><li>Hygiene supplies</li></ul></div>
+        <div class="need"><span class="status">Needed</span><h3>Tools</h3><ul><li>Hand tools</li><li>Wheelbarrows</li><li>PPE</li><li>Selected machinery</li></ul></div>
+        <div class="need"><span class="status">Needed</span><h3>Logistics & safety</h3><ul><li>Transport</li><li>First-aid equipment</li><li>Fire safety</li><li>Site lighting</li></ul></div>
+      </div>
+      <div class="actions"><a class="btn primary" href="mailto:hello@terra-be-utopia.org?subject=Equipment%20Partnership">Become an equipment partner</a></div>
+    </div>
+  </section>
+
+  <section class="hands" id="build">
+    <div class="wrap">
+      <div class="eyebrow" style="color:#dce7d8">Build it</div>
+      <h2>Bring your hands. Bring your skills.</h2>
+      <p class="lead">There is more than one way to build something. We need practical people, technical people, creative people and people willing to learn alongside us.</p>
+      <div class="roles"><span class="role">Builders</span><span class="role">Growers</span><span class="role">Cooks</span><span class="role">Water & solar</span><span class="role">Natural builders</span><span class="role">Organisers</span><span class="role">Photo & video</span><span class="role">Learners</span></div>
+      <div class="actions"><a class="btn light" href="#">Build with us</a></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap story-grid">
+      <div class="image-card"><img src="Terra-Be-Utopia-Permaculture-GeoffLawton-FireResistance.jpeg" alt="Permaculture and fire resilience learning" /></div>
+      <div>
+        <div class="eyebrow">Why here, why now</div>
+        <h2>Regeneration has to work for the people who live from the land.</h2>
+        <p class="lead">One of our deepest goals is to make regeneration practical for farmers and landowners — not as an ideal that asks them to choose between ecology and income, but as a way of protecting the very resource their livelihood depends on.</p>
+        <p>In a dry, fire-prone region like the Alentejo, that means learning how to design for water abundance, healthier soils, productive landscapes and greater fire resilience. It also means questioning the idea that safety must always come from repeatedly stripping or ploughing the land bare.</p>
+        <p>We are not pretending to have all the answers. That is precisely why we want to work with experienced practitioners, test approaches on real land, measure what happens and make the learning visible.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="land">
+    <div class="wrap land-grid">
+      <div>
+        <div class="eyebrow">The wider idea</div>
+        <h2>Imagine if one place could make another place easier to regenerate.</h2>
+        <p class="lead">Terra-Be-Utopia connects land, people, knowledge and resources to regenerate living systems — one real project at a time.</p>
+        <p>Monte Ventosa is where this first demonstration begins. It is not intended to be the only model, and it is not the end of the story. What matters is creating places where people can see, learn, adapt and carry useful ideas into their own farms, homes, communities and landscapes.</p>
+      </div>
+      <div class="principles">
+        <div class="principle"><strong>Water abundance</strong><span>Slow, spread, store and cycle water more intelligently.</span></div>
+        <div class="principle"><strong>Fire resilience</strong><span>Design landscapes that are safer without treating bare soil as the only answer.</span></div>
+        <div class="principle"><strong>Productive regeneration</strong><span>Support livelihoods while rebuilding soil and ecological function.</span></div>
+        <div class="principle"><strong>Natural building</strong><span>Use local, appropriate materials and practical building knowledge.</span></div>
+        <div class="principle"><strong>Hands-on learning</strong><span>Learn through real implementation, not only theory.</span></div>
+        <div class="principle"><strong>Open demonstration</strong><span>Document what works — and what does not.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap story-grid">
+      <div>
+        <div class="eyebrow">Amplify it</div>
+        <h2>Sometimes the most valuable thing you can give is an introduction.</h2>
+        <p class="lead">Maybe you know a solar company. A farmer. A foundation. A regenerative educator. A journalist. A manufacturer. A person who would understand immediately why this matters.</p>
+        <p>Open a door. We will take it from there.</p>
+        <div class="actions"><a class="btn primary" href="mailto:hello@terra-be-utopia.org?subject=I%20would%20like%20to%20make%20an%20introduction">Make an introduction</a></div>
+      </div>
+      <div class="image-card"><img src="monte-ventosa-natural-building-clay-hands.webp" alt="Hands working with natural building clay" /></div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <div class="eyebrow" style="color:#e4eee2">Your way in</div>
+      <h2>What can you bring?</h2>
+      <div class="actions">
+        <a class="btn light" href="#fund">Fund it</a>
+        <a class="btn light" href="#equipment-needs">Equip it</a>
+        <a class="btn light" href="#build">Build it</a>
+        <a class="btn light" href="mailto:hello@terra-be-utopia.org?subject=I%20would%20like%20to%20help%20open%20a%20door">Amplify it</a>
+      </div>
+      <p style="margin-top:25px">Every contribution moves the needle.</p>
+    </div>
+  </section>
+
+  <footer><div class="wrap">Terra-Be-Utopia · Alentejo, Portugal</div></footer>
+
+  <script>
+    /* --------------------------------------------------------------
+       CAMPAIGN UPDATE PANEL
+       Change only the values in this object to update the dashboard.
+       -------------------------------------------------------------- */
+    const campaign = {
+      cashRaised: 0,
+      cashTarget: 30000,
+      equipmentValue: 0,
+      equipmentTarget: 12000,
+      gofundmeUrl: "#",
+      systems: {
+        "Water": false,
+        "Power": false,
+        "Sanitation": false,
+        "Kitchen": false,
+        "Classroom": false,
+        "Tools": false,
+        "Safety": false,
+        "Logistics": false
+      }
+    };
+
+    const euro = n => new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+    const cashPct = Math.max(0,Math.min(100,campaign.cashRaised/campaign.cashTarget*100));
+    document.getElementById('cashNeedle').style.setProperty('--progress',cashPct);
+    document.getElementById('cashValue').textContent=euro(campaign.cashRaised);
+    document.getElementById('gofundmeLink').href=campaign.gofundmeUrl;
+
+    let next='Goal reached — ready to build.';
+    if(campaign.cashRaised<5500) next=`Next milestone: ${euro(5500)} — Secure the course.`;
+    else if(campaign.cashRaised<15000) next=`Next milestone: ${euro(15000)} — Bring the teacher.`;
+    else if(campaign.cashRaised<27000) next=`Next milestone: ${euro(27000)} — Make it possible.`;
+    else if(campaign.cashRaised<30000) next=`Next milestone: ${euro(30000)} — Build it safely.`;
+    document.getElementById('nextMilestone').textContent=next;
+
+    const systems=Object.entries(campaign.systems);
+    const secured=systems.filter(([,v])=>v).length;
+    const equipPct=secured/systems.length*100;
+    document.getElementById('equipmentNeedle').style.setProperty('--progress',equipPct);
+    document.getElementById('equipmentCount').textContent=`${secured} / ${systems.length}`;
+    document.getElementById('equipmentValue').textContent=`${euro(campaign.equipmentValue)} equipment secured`;
+    document.getElementById('equipmentGrid').innerHTML=systems.map(([name,on])=>`<div class="equip-chip ${on?'secured':''}">${on?'✓ ':''}${name}</div>`).join('');
+  </script>
+</body>
+</html>
